@@ -1,0 +1,47 @@
+# Ready to paste into Coolify as a "Docker Compose" resource.
+# Only outbound API calls are made, so the default bridge network is fine.
+# No ports are exposed.
+
+services:
+  coolify-cf-tunnel-sync:
+    image: ghcr.io/ksegit/coolify-cf-tunnel-sync:latest
+    restart: unless-stopped
+    environment:
+      # --- Required ---
+
+      # Your Coolify URL, e.g. https://coolify.example.com
+      COOLIFY_URL: ${COOLIFY_URL}
+
+      # Coolify API token. Read access is enough.
+      COOLIFY_TOKEN: ${COOLIFY_TOKEN}
+
+      # Cloudflare API token with Account > Cloudflare Tunnel > Edit.
+      # Add Zone > DNS > Edit too if SYNC_DNS is true.
+      CF_API_TOKEN: ${CF_API_TOKEN}
+
+      # Cloudflare account id (see Zero Trust dashboard URL).
+      CF_ACCOUNT_ID: ${CF_ACCOUNT_ID}
+
+      # Tunnel UUID (Zero Trust > Networks > Tunnels).
+      CF_TUNNEL_ID: ${CF_TUNNEL_ID}
+
+      # --- Optional ---
+
+      # Where new routes point. Default: http://localhost:8180 (Coolify Traefik).
+      TARGET_SERVICE: ${TARGET_SERVICE:-http://localhost:8180}
+
+      # Seconds between sync runs. Default: 120.
+      POLL_INTERVAL: ${POLL_INTERVAL:-120}
+
+      # Also create DNS CNAME records for new hostnames. Default: false.
+      SYNC_DNS: ${SYNC_DNS:-false}
+
+      # DNS zone id. Required only when SYNC_DNS is true.
+      CF_ZONE_ID: ${CF_ZONE_ID:-}
+
+      # Log what would change, but change nothing. Default: false.
+      # Start with true, check the logs, then set to false.
+      DRY_RUN: ${DRY_RUN:-true}
+
+      # Comma list of hostnames to never touch. Default: empty.
+      EXCLUDE_HOSTNAMES: ${EXCLUDE_HOSTNAMES:-}
