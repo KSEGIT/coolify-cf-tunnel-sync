@@ -39,7 +39,7 @@ originRequest:
 
 ## Tech choices
 
-- Python 3.12, slim image. `httpx` for HTTP. No framework.
+- Python 3.14, slim image. `httpx` for HTTP. No framework.
 - Single container. Config through env vars only. No state files.
 - Poll-based. Coolify has no webhook for "domain changed", so polling is the design.
   Default interval: 120 s.
