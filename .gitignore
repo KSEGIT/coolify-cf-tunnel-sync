@@ -30,3 +30,6 @@ build/
 
 # Git worktrees
 .worktrees/
+
+# version-sentinel registry cache (regenerated locally)
+.version-sentinel/.etag-cache/
